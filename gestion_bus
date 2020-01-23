@@ -1,0 +1,118 @@
+'''class Arret:
+    def __init__(self,date_depart,depart_post,temps_attente=None):
+        self.date_depart=date_depart
+        self.depart_post=depart_post
+        self.temps_attente=temps_attente
+        
+    def get_date_depart(self):
+        return self.date_depart
+    
+    def get_depart_post(self):
+        return self.depart_post
+    
+    def get_temps_attente(self):
+        return self.temps_attente'''
+        
+    
+    
+    
+    
+    
+    
+#!/usr/bin/python3
+#-*-coding:utf-8-*-
+
+data_file_name = '1_Poisy-ParcDesGlaisins.txt'
+#data_file_name = '2_Piscine-Patinoire_Campus.txt'
+
+try:
+    with open(data_file_name, 'r') as f:
+        content = f.read()
+except OSError:
+    # 'File not found' error message.
+    print("File not found")
+
+def dates2dic(dates):
+    dic = {}
+    splitted_dates = dates.split("\n")
+    #print(splitted_dates)
+    for stop_dates in splitted_dates:
+        tmp = stop_dates.split(" ")
+        dic[tmp[0]] = tmp[1:]
+    return dic
+
+slited_content = content.split("\n\n")
+regular_path = slited_content[0]
+regular_date_go = dates2dic(slited_content[1])
+horaires0=regular_date_go.get("LYCEE_DE_POISY")
+#print(horaires0)
+horaires1=regular_date_go.get("POISY_COLLEGE")
+horaires2=regular_date_go.get("Vernod")
+horaires3=regular_date_go.get("Meythet_Le_Rabelais")
+horaires4=regular_date_go.get("Chorus")
+horaires5=regular_date_go.get("Mandallaz")
+
+regular_date_back = dates2dic(slited_content[2])
+we_holidays_path = slited_content[3]
+we_holidays_date_go = dates2dic(slited_content[4])
+we_holidays_date_back = dates2dic(slited_content[5])
+
+    
+    
+
+
+class Arret:
+    def __init__(self,nom,arrets_prec=None,liste_passage_1=None,liste_passage_2=None):
+        self.nom=nom
+        self.arrets_prec=arrets_prec
+        self.liste_passage_1=liste_passage_1
+        self.liste_passage_2=liste_passage_2
+
+
+    
+class Trajet:
+    def __init__(self,duree):
+        self.duree=duree
+        
+    def get_duree(self):
+        return self.duree
+    
+    
+    
+class Itineraire:
+    def __init(self,depart,arrivee,option):
+        self.depart=depart
+        self.arrivee=arrivee
+        self.option=option
+        
+        
+    def get_depart(self):
+        return self.depart
+    
+    def get_arrivee(self):
+        return self.arrivee
+    
+    def get_option(self):
+        return self.option
+    
+        
+    
+    
+        
+        
+arret0=Arret('Lycee de Poisy',None,horaires0,None)
+#print(arret0.liste_passage_1) 
+arret1=Arret('Poisy College',arret0,horaires1,None)
+arret2=Arret('Vernod',arret1,horaires2,None)
+arret3=Arret(')
+
+
+
+
+
+
+
+
+
+      
+        
