@@ -1,0 +1,418 @@
+# -*- coding: utf-8 -*-
+import networkx as nx
+G1=nx.Graph()
+
+
+
+
+#On commence par rechercher la liste des passages des bus pour chaque arret dans les 2 fichiers texte
+
+data_file_name = 'C:/Users/33604/Desktop/1_Poisy-ParcDesGlaisins.txt'
+#data_file_name = '2_Piscine-Patinoire_Campus.txt'
+
+try:
+    with open(data_file_name, 'r') as f:
+        content = f.read()
+except OSError:
+    # 'File not found' error message.
+    print("File not found")
+
+def dates2dic(dates):
+    dic = {}
+    splitted_dates = dates.split("\n")
+    #print(splitted_dates)
+    for stop_dates in splitted_dates:
+        tmp = stop_dates.split(" ")
+        dic[tmp[0]] = tmp[1:]
+    return dic
+
+slited_content = content.split("\n\n")
+
+
+regular_path = slited_content[0]
+
+
+regular_date_go = dates2dic(slited_content[1])
+a1_horaires0=regular_date_go.get("LYCEE_DE_POISY")
+a1_horaires1=regular_date_go.get("POISY_COLLEGE")
+a1_horaires2=regular_date_go.get("Vernod")
+a1_horaires3=regular_date_go.get("Meythet_Le_Rabelais")
+a1_horaires4=regular_date_go.get("Chorus")
+a1_horaires5=regular_date_go.get("Mandallaz")
+a1_horaires6=regular_date_go.get("GARE")
+a1_horaires7=regular_date_go.get("France_Barattes")
+a1_horaires8=regular_date_go.get("C.E.S._Barattes")
+a1_horaires9=regular_date_go.get("VIGNIERES")
+a1_horaires10=regular_date_go.get("Ponchy")
+a1_horaires11=regular_date_go.get("PARC_DES_GLAISINS")
+
+
+regular_date_back = dates2dic(slited_content[2])
+r1_horaires0=regular_date_back.get("PARC_DES_GLAISINS")
+r1_horaires1=regular_date_back.get("Ponchy")
+r1_horaires2=regular_date_back.get("VIGNIERES")
+r1_horaires3=regular_date_back.get("C.E.S._Barattes")
+r1_horaires4=regular_date_back.get("France_Barattes")
+r1_horaires5=regular_date_back.get("GARE")
+r1_horaires6=regular_date_back.get("Mandallaz")
+r1_horaires7=regular_date_back.get("Chorus")
+r1_horaires8=regular_date_back.get("Meythet_Le_Rabelais")
+r1_horaires9=regular_date_back.get("Vernod")
+r1_horaires10=regular_date_back.get("POISY_COLLEGE")
+r1_horaires11=regular_date_back.get("LYCEE_DE_POISY")
+
+
+we_holidays_path = slited_content[3]
+
+
+we_holidays_date_go = dates2dic(slited_content[4])
+a1_vac_horaires0=we_holidays_date_go.get("LYCEE_DE_POISY")
+a1_vac_horaires1=we_holidays_date_go.get("POISY_COLLEGE")
+a1_vac_horaires2=we_holidays_date_go.get("Vernod")
+a1_vac_horaires3=we_holidays_date_go.get("Meythet_Le_Rabelais")
+a1_vac_horaires4=we_holidays_date_go.get("Chorus")
+a1_vac_horaires5=we_holidays_date_go.get("Mandallaz")
+a1_vac_horaires6=we_holidays_date_go.get("GARE")
+a1_vac_horaires7=we_holidays_date_go.get("France_Barattes")
+a1_vac_horaires8=we_holidays_date_go.get("C.E.S._Barattes")
+a1_vac_horaires9=we_holidays_date_go.get("VIGNIERES")
+a1_vac_horaires10=we_holidays_date_go.get("Ponchy")
+a1_vac_horaires11=we_holidays_date_go.get("PARC_DES_GLAISINS")
+
+
+
+
+we_holidays_date_back = dates2dic(slited_content[5])
+r1_vac_horaires0=we_holidays_date_back.get("PARC_DES_GLAISINS")
+r1_vac_horaires1=we_holidays_date_back.get("Ponchy")
+r1_vac_horaires2=we_holidays_date_back.get("VIGNIERES")
+r1_vac_horaires3=we_holidays_date_back.get("C.E.S._Barattes")
+r1_vac_horaires4=we_holidays_date_back.get("France_Barattes")
+r1_vac_horaires5=we_holidays_date_back.get("GARE")
+r1_vac_horaires6=we_holidays_date_back.get("Mandallaz")
+r1_vac_horaires7=we_holidays_date_back.get("Chorus")
+r1_vac_horaires8=we_holidays_date_back.get("Meythet_Le_Rabelais")
+r1_vac_horaires9=we_holidays_date_back.get("Vernod")
+r1_vac_horaires10=we_holidays_date_back.get("POISY_COLLEGE")
+r1_vac_horaires11=we_holidays_date_back.get("LYCEE_DE_POISY")
+
+#data_file_name.close()
+
+data_file_name = 'C:/Users/33604/Desktop/2_Piscine-Patinoire_Campus.txt'
+
+try:
+    with open(data_file_name, 'r') as f:
+        content = f.read()
+except OSError:
+    # 'File not found' error message.
+    print("File not found")
+
+def dates2dic(dates):
+    dic = {}
+    splitted_dates = dates.split("\n")
+    #print(splitted_dates)
+    for stop_dates in splitted_dates:
+        tmp = stop_dates.split(" ")
+        dic[tmp[0]] = tmp[1:]
+    return dic
+
+slited_content = content.split("\n\n")
+
+
+regular_path = slited_content[0]
+
+##On parcours les dictionnaires pour recuperer les informations utiles pour chaque arret. On stocke tout dans des variables
+regular_date_go = dates2dic(slited_content[1])
+a2_horaires0=regular_date_go.get("PISCINE-PATINOIRE")
+a2_horaires1=regular_date_go.get("Arcadium")
+a2_horaires2=regular_date_go.get("Parc_des_Sports")
+a2_horaires3=regular_date_go.get("Place_des_Romains")
+a2_horaires4=regular_date_go.get("Courier")
+a2_horaires5=regular_date_go.get("GARE")
+a2_horaires6=regular_date_go.get("Bonlieu")
+a2_horaires7=regular_date_go.get("Prefecture_Paquier")
+a2_horaires8=regular_date_go.get("Imperial")
+a2_horaires9=regular_date_go.get("Pommaries")
+a2_horaires10=regular_date_go.get("VIGNIERES")
+a2_horaires11=regular_date_go.get("CAMPUS")
+
+
+regular_date_back = dates2dic(slited_content[2])
+r2_horaires0=regular_date_back.get("CAMPUS")
+r2_horaires1=regular_date_back.get("VIGNIERES")
+r2_horaires2=regular_date_back.get("Pommaries")
+r2_horaires3=regular_date_back.get("Imperial")
+r2_horaires4=regular_date_back.get("Prefecture_Paquier")
+r2_horaires5=regular_date_back.get("Bonlieu")
+r2_horaires6=regular_date_back.get("GARE")
+r2_horaires7=regular_date_back.get("Courier")
+r2_horaires8=regular_date_back.get("Place_des_Romains")
+r2_horaires9=regular_date_back.get("Parc_des_Sports")
+r2_horaires10=regular_date_back.get("Arcadium")
+r2_horaires11=regular_date_back.get("PISCINE-PATINOIRE")
+
+
+we_holidays_path = slited_content[3]
+
+
+we_holidays_date_go = dates2dic(slited_content[4])
+a2_vac_horaires0=we_holidays_date_go.get("PISCINE-PATINOIRE")
+a2_vac_horaires1=we_holidays_date_go.get("Arcadium")
+a2_vac_horaires2=we_holidays_date_go.get("Parc_des_Sports")
+a2_vac_horaires3=we_holidays_date_go.get("Place_des_Romains")
+a2_vac_horaires4=we_holidays_date_go.get("Courier")
+a2_vac_horaires5=we_holidays_date_go.get("GARE")
+a2_vac_horaires6=we_holidays_date_go.get("Bonlieu")
+a2_vac_horaires7=we_holidays_date_go.get("Prefecture_Paquier")
+a2_vac_horaires8=we_holidays_date_go.get("Imperial")
+a2_vac_horaires9=we_holidays_date_go.get("Pommaries")
+a2_vac_horaires10=we_holidays_date_go.get("VIGNIERES")
+a2_vac_horaires11=we_holidays_date_go.get("CAMPUS")
+
+
+
+
+we_holidays_date_back = dates2dic(slited_content[5])
+r2_vac_horaires0=we_holidays_date_back.get("CAMPUS")
+r2_vac_horaires1=we_holidays_date_back.get("VIGNIERES")
+r2_vac_horaires2=we_holidays_date_back.get("Pommaries")
+r2_vac_horaires3=we_holidays_date_back.get("Imperial")
+r2_vac_horaires4=we_holidays_date_back.get("Prefecture_Paquier")
+r2_vac_horaires5=we_holidays_date_back.get("Bonlieu")
+r2_vac_horaires6=we_holidays_date_back.get("GARE")
+r2_vac_horaires7=we_holidays_date_back.get("Courier")
+r2_vac_horaires8=we_holidays_date_back.get("Place_des_Romains")
+r2_vac_horaires9=we_holidays_date_back.get("Parc_des_Sports")
+r2_vac_horaires10=we_holidays_date_back.get("Arcadium")
+r2_vac_horaires11=we_holidays_date_back.get("PISCINE-PATINOIRE")
+
+
+
+
+'''On creer la classe "node" qui represente un arret
+Un arret possede un nom, une liste des arrets le precedent, une liste des arrets le suivant, 
+une liste de passage pour la ligne 1 et une autre pour la liste 2 (en periode normale ou vacances)'''
+
+class node:
+    def __init__(self,nom,arrets_prec=[],arrets_suiv=[],liste_passage_1=None,liste_passage_2=None,liste_passage_1_vac=None,liste_passage_2_vac=None):
+        self.nom=nom
+        self.arrets_prec=arrets_prec
+        self.arrets_suiv=arrets_suiv
+        self.liste_passage_1=liste_passage_1
+        self.liste_passage_2=liste_passage_2
+        self.liste_passage_1_vac=liste_passage_1_vac
+        self.liste_passage_2_vac=liste_passage_2_vac
+        
+        
+    def get_liste_passage_1(self):
+        return self.liste_passage_1
+    
+    
+    
+    def get_liste_passage_2(self):
+        return self.liste_passage_2
+    
+    def get_liste_passage_1_vac(self):
+        return self.liste_passage_1_vac
+    
+    
+    
+    def get_liste_passage_2_vac(self):
+        return self.liste_passage_2_vac
+    
+    
+    
+    def get_nom(self):
+        return self.nom
+    
+    def get_arrets_prec(self):
+        return self.arrets_prec 
+    
+    def get_arrets_suiv(self):
+        return self.arrets_suiv
+    
+    
+      
+#Creation des arrets:
+
+a_arret0=node('Lycee de Poisy',[],[],a1_horaires0,None,a1_vac_horaires0,None)
+a_arret1=node('Poisy College',[a_arret0],[],a1_horaires1,None,a1_vac_horaires1,None)   #arret precedent FAUX !!
+a_arret2=node('Vernod',[a_arret1],[],a1_horaires2,None,a1_vac_horaires2,None)
+a_arret3=node('Meythet Le Rabelais',[a_arret2],[],a1_horaires3,None,a1_vac_horaires3,None)
+a_arret4=node('Chorus',[a_arret3],[],a1_horaires4,None,a1_vac_horaires4,None)
+a_arret5=node('Mandallaz',[a_arret4],[],a1_horaires5,None,a1_vac_horaires5,None)
+a_arret6=node('Gare',[a_arret5],[],a1_horaires6,a2_horaires5,a1_vac_horaires6,a2_vac_horaires5)
+a_arret7=node('France Barattes',[a_arret6],[],a1_horaires7,None,a1_vac_horaires7,None)
+a_arret8=node('C.E.S. Barattes',[a_arret7],[],a1_horaires8,None,a1_vac_horaires8,None)
+a_arret9=node('Vignieres',[a_arret8],[],a1_horaires9,a2_horaires10,a1_vac_horaires9,a2_vac_horaires10)
+a_arret10=node('Ponchy',[a_arret9],[],a1_horaires10,None,a1_vac_horaires10,None)
+a_arret11=node('Parc des Glaisins',[a_arret10],[],a1_horaires11,None,a1_vac_horaires11,None)
+
+
+r_arret0=node('Parc des Glaisins',[],[],r1_horaires0,None,r1_vac_horaires0,None)
+r_arret1=node('Ponchy',[r_arret0],[],r1_horaires1,None,r1_vac_horaires1,None)
+r_arret2=node('Vignieres',[r_arret1],[],r1_horaires2,r2_horaires1,r1_vac_horaires2,r2_vac_horaires1)
+r_arret3=node('C.E.S. Barattes',[r_arret2],[],r1_horaires3,None,r1_vac_horaires3,None)
+r_arret4=node('France Barattes',[r_arret3],[],r1_horaires4,None,r1_vac_horaires4,None)
+r_arret5=node('Gare',[r_arret4],[],r1_horaires5,r2_horaires6,r1_vac_horaires5,r2_vac_horaires6)
+r_arret6=node('Mandallaz',[r_arret5],[],r1_horaires6,None,r1_vac_horaires6,None)
+r_arret7=node('Chorus',[r_arret6],[],r1_horaires7,None,r1_vac_horaires7,None)
+r_arret8=node('Meythet Le Rabelais',[r_arret7],[],r1_horaires8,None,r1_vac_horaires8,None)
+r_arret9=node('Vernod',[r_arret8],[],r1_horaires9,None,r1_vac_horaires9,None)
+r_arret10=node('Poisy College',[r_arret9],[],r1_horaires10,None,r1_vac_horaires10,None)
+r_arret11=node('Lycee de Poisy',[r_arret10],[],r1_horaires11,None,r1_vac_horaires11,None)
+
+
+a_arret12=node('Piscine-Patinoire',[],[],a2_horaires0,None,a2_vac_horaires0,None)
+a_arret13=node('Arcadium',[a_arret12],[],a2_horaires1,None,a2_vac_horaires1,None)
+a_arret14=node('Parc des sports',[a_arret13],[],a2_horaires2,None,a2_vac_horaires2,None)
+a_arret15=node('Place des romains',[a_arret14],[],a2_horaires3,None,a2_vac_horaires3,None)
+a_arret16=node('Courier',[a_arret15],[],a2_horaires4,None,a2_vac_horaires4,None)
+a_arret17=a_arret6
+a_arret18=node('Bonlieu',[a_arret17],[],a2_horaires6,None,a2_vac_horaires6,None)
+a_arret19=node('Prefecture Paquier',[a_arret18],[],a2_horaires7,None,a2_vac_horaires7,None)
+a_arret20=node('Imperial',[a_arret19],[],a2_horaires8,None,a2_vac_horaires8,None)
+a_arret21=node('Pommaries',[a_arret20],[],a2_horaires9,None,a2_vac_horaires9,None)
+a_arret22=a_arret9
+a_arret23=node('Campus',[a_arret22],[],a2_horaires11,None,a2_vac_horaires11,None)
+
+
+r_arret12=node('Campus',[],[],r2_horaires0,None,r2_vac_horaires0,None)
+r_arret13=node('Vignieres',[r_arret12],[],r2_horaires1,None,r2_vac_horaires1,None)
+r_arret14=node('Pommaries',[r_arret13],[],r2_horaires2,None,r2_vac_horaires2,None)
+r_arret15=node('Imperial',[r_arret14],[],r2_horaires3,None,r2_vac_horaires3,None)
+r_arret16=node('Prefecture Paquier',[r_arret15],[],r2_horaires4,None,r2_vac_horaires4,None)
+r_arret17=node('Bonlieu',[r_arret16],[],r2_horaires5,None,r2_vac_horaires5,None)
+r_arret18=node('Gare',[r_arret17],[],r2_horaires6,None,r2_vac_horaires6,None)
+r_arret19=node('Courier',[r_arret18],[],r2_horaires7,None,r2_vac_horaires7,None)
+r_arret20=node('Place des romains',[r_arret19],[],r2_horaires8,None,r2_vac_horaires8,None)
+r_arret21=node('Parc des sports',[r_arret20],[],r2_horaires9,None,r2_vac_horaires9,None)
+r_arret22=node('Arcadium',[r_arret21],[],r2_horaires9,None,r2_vac_horaires9,None)
+r_arret23=node('Piscine-Patinoire',[r_arret22],[],r2_horaires11,None,r2_vac_horaires11,None)
+
+
+
+
+    
+
+
+
+
+a_arret0.arrets_suiv=[a_arret1]
+a_arret1.arrets_suiv=[a_arret2]
+a_arret2.arrets_suiv=[a_arret3]
+a_arret3.arrets_suiv=[a_arret4]
+a_arret4.arrets_suiv=[a_arret5]
+a_arret5.arrets_suiv=[a_arret6]
+a_arret6.arrets_suiv=[a_arret7]
+a_arret7.arrets_suiv=[a_arret8]
+a_arret8.arrets_suiv=[a_arret9]
+a_arret9.arrets_suiv=[a_arret10]
+a_arret10.arrets_suiv=[a_arret11]
+
+r_arret0.arrets_suiv=[r_arret1]
+r_arret1.arrets_suiv=[r_arret2]
+r_arret2.arrets_suiv=[r_arret3]
+r_arret3.arrets_suiv=[r_arret4]
+r_arret4.arrets_suiv=[r_arret5]
+r_arret5.arrets_suiv=[r_arret6]
+r_arret6.arrets_suiv=[r_arret7]
+r_arret7.arrets_suiv=[r_arret8]
+r_arret8.arrets_suiv=[r_arret9]
+r_arret9.arrets_suiv=[r_arret10]
+r_arret10.arrets_suiv=[r_arret11] 
+
+
+a_arret12.arrets_suiv=[a_arret13]
+a_arret13.arrets_suiv=[a_arret14]
+a_arret14.arrets_suiv=[a_arret15]
+a_arret15.arrets_suiv=[a_arret16]
+a_arret16.arrets_suiv=[a_arret17]
+a_arret17.arrets_suiv=[a_arret7,a_arret18]
+a_arret18.arrets_suiv=[a_arret19]
+a_arret19.arrets_suiv=[a_arret20]
+a_arret20.arrets_suiv=[a_arret21]
+a_arret21.arrets_suiv=[a_arret22]
+a_arret22.arrets_suiv=[a_arret10,a_arret23]
+
+
+
+r_arret12.arrets_suiv=[r_arret13]
+r_arret13.arrets_suiv=[r_arret3,r_arret14]
+r_arret14.arrets_suiv=[r_arret15]
+r_arret15.arrets_suiv=[r_arret16]
+r_arret16.arrets_suiv=[r_arret17]
+a_arret17.arrets_suiv=[a_arret18]
+r_arret18.arrets_suiv=[r_arret6,r_arret19]
+r_arret19.arrets_suiv=[r_arret20]
+r_arret20.arrets_suiv=[r_arret21]
+r_arret21.arrets_suiv=[r_arret22]
+a_arret22.arrets_suiv=[a_arret23]
+
+
+#Methode qui permet de recuperer une liste contenant les temps de trajets entre deux arrets pour chaque creneau horaire
+def duree0(self,arret):
+        L=[]
+        for i in range(len(self.liste_passage_1)):
+            if self.liste_passage_1[i]!='-' and arret.liste_passage_1[i]!='-':
+                if self.liste_passage_1[i][0]==arret.liste_passage_1[i][0] and len(self.liste_passage_1[i])==4 and len(arret.liste_passage_1[i])==4:
+                        duree=int(arret.liste_passage_1[i][2:4])-int(self.liste_passage_1[i][2:4])
+                        if duree<1:
+                            duree+=60
+                        L.append(duree)
+                elif self.liste_passage_1[i][0:1]==arret.liste_passage_1[i][0:1] and len(self.liste_passage_1[i])==5 and len(arret.liste_passage_1[i])==5:         
+                        duree=int(arret.liste_passage_1[i][3:5])-int(self.liste_passage_1[i][3:5])
+                        if duree<1:
+                            duree+=60
+                        L.append(duree)        
+                elif len(self.liste_passage_1[i])==4 and len(arret.liste_passage_1[i])==4:
+                    duree=(60-int(self.liste_passage_1[i][2:4]))+(int(arret.liste_passage_1[i][2:4]))
+                    if duree<1:
+                        duree+=60
+                    L.append(duree)
+                elif len(self.liste_passage_1[i])==4 and len(arret.liste_passage_1[i])==5: 
+                    duree=(60-int(self.liste_passage_1[i][2:4]))+(int(arret.liste_passage_1[i][3:5]))
+                    if duree<1:
+                        duree+=60
+                    L.append(duree)
+                else:
+                    duree=(60-int(self.liste_passage_1[i][3:5]))+(int(arret.liste_passage_1[i][3:5]))
+                    if duree<1:
+                        duree+=60
+                    L.append(duree)
+                    
+        return L
+
+
+
+            
+            
+L1=[a_arret0,a_arret1,a_arret2,a_arret3,a_arret4,a_arret5,a_arret6,a_arret7,a_arret8,a_arret9,a_arret10,a_arret11]            
+L2=[a_arret12,a_arret13,a_arret14,a_arret15,a_arret16,a_arret17,a_arret18,a_arret19,a_arret20,a_arret21,a_arret22,a_arret23]
+
+#On créer les noeuds puis les arcs à partir des deux listes precedentes 
+for elt in L1:
+    G1.add_node(elt.nom)
+for i in range (len(L1)-1):
+    G1.add_edge(L1[i].nom,L1[i+1].nom) 
+    
+for elt in L2:
+    G1.add_node(elt.nom)
+for i in range(len(L2)-1):
+    G1.add_edge(L2[i].nom,L2[i+1].nom)  
+
+
+print(a_arret1.liste_passage_1)
+print(a_arret2.liste_passage_1)  
+#print(a_arret0.duree0(a_arret10)) 
+#On utilise la fonction "subgraph" de networkx pour récupérer le plus court chemin en nombre d'arcs.
+
+#=======================================================================================================
+                  #Saisir ci dessous l'arret de depart suivi de l'arret d'arrivee
+#=======================================================================================================    
+plusCourtChemin1 = G1.subgraph(nx.shortest_path(G1,a_arret20.nom, a_arret2.nom))
+    
+#nx.draw_spring(G1,with_labels=True)   
+#On represente le graphe avec la fonction "draw" de networkx
+print("Voici le chemin le plus court:")
+nx.draw_spring(plusCourtChemin1,with_labels=True, font_weight='bold')    
