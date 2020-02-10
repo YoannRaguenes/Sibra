@@ -2,4 +2,4 @@ Pour utiliser ce programme la bibliothèque networkx est nécessaire. Vous pouve
 
 SHORTEST: ouvrir le fichier "shortest" --> aller tout en bas du fichier(ligne 410) et suivre les instructions
 
-FASTEST: (le programme n'est pas fini, seules certaines méthodes fonctionnent)  --> ouvrir le fichier "fastest" --> 
+FASTEST: (le programme n'est pas fini, seules certaines méthodes fonctionnent)  --> ouvrir le fichier "fastest" --> aller tout en bas (ligne 228) et suivre le modèle proposé pour récuperer le temps de trajet entre deux arrêts en fonction de l'heure
