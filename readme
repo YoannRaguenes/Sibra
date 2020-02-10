@@ -1,0 +1,5 @@
+Pour utiliser ce programme la bibliothèque networkx est nécessaire. Vous pouvez l'obtenir en suivant la démarche présentée ici :https://networkx.github.io/documentation/stable/install.html
+
+SHORTEST: ouvrir le fichier "shortest" --> aller tout en bas du fichier(ligne 410) et suivre les instructions
+
+FASTEST: (le programme n'est pas fini, seules certaines méthodes fonctionnent)  --> ouvrir le fichier "fastest" --> 
