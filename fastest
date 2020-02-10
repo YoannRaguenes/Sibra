@@ -1,0 +1,234 @@
+import os
+os.chdir("C:/Users/33604/Desktop")
+
+
+
+data_file_name = '1_Poisy-ParcDesGlaisins.txt'
+#data_file_name = '2_Piscine-Patinoire_Campus.txt'
+
+try:
+    with open(data_file_name, 'r') as f:
+        content = f.read()
+except OSError:
+    # 'File not found' error message.
+    print("File not found")
+
+def dates2dic(dates):
+    dic = {}
+    splitted_dates = dates.split("\n")
+    #print(splitted_dates)
+    for stop_dates in splitted_dates:
+        tmp = stop_dates.split(" ")
+        dic[tmp[0]] = tmp[1:]
+    return dic
+
+slited_content = content.split("\n\n")
+
+
+regular_path = slited_content[0]
+
+#On parcours les dictionnaires pour recuperer les informations utiles pour chaque arret. On stocke tout dans des variables
+regular_date_go = dates2dic(slited_content[1])
+a_horaires0=regular_date_go.get("LYCEE_DE_POISY")
+#print(a_horaires0)
+a_horaires1=regular_date_go.get("POISY_COLLEGE")
+a_horaires2=regular_date_go.get("Vernod")
+a_horaires3=regular_date_go.get("Meythet_Le_Rabelais")
+a_horaires4=regular_date_go.get("Chorus")
+a_horaires5=regular_date_go.get("Mandallaz")
+a_horaires6=regular_date_go.get("GARE")
+a_horaires7=regular_date_go.get("France_Barattes")
+a_horaires8=regular_date_go.get("C.E.S._Barattes")
+a_horaires9=regular_date_go.get("VIGNIERES")
+a_horaires10=regular_date_go.get("Ponchy")
+a_horaires11=regular_date_go.get("PARC_DES_GLAISINS")
+
+
+regular_date_back = dates2dic(slited_content[2])
+r_horaires0=regular_date_back.get("PARC_DES_GLAISINS")
+r_horaires1=regular_date_back.get("Ponchy")
+r_horaires2=regular_date_back.get("VIGNIERES")
+r_horaires3=regular_date_back.get("C.E.S._Barattes")
+r_horaires4=regular_date_back.get("France_Barattes")
+r_horaires5=regular_date_back.get("GARE")
+r_horaires6=regular_date_back.get("Mandallaz")
+r_horaires7=regular_date_back.get("Chorus")
+r_horaires8=regular_date_back.get("Meythet_Le_Rabelais")
+r_horaires9=regular_date_back.get("Vernod")
+r_horaires10=regular_date_back.get("POISY_COLLEGE")
+r_horaires11=regular_date_back.get("LYCEE_DE_POISY")
+
+
+we_holidays_path = slited_content[3]
+we_holidays_date_go = dates2dic(slited_content[4])
+we_holidays_date_back = dates2dic(slited_content[5])
+
+    
+    
+
+
+class Arret:
+    def __init__(self,nom,arrets_prec=None,arrets_suiv=None,liste_passage_1=None,liste_passage_2=None):
+        self.nom=nom
+        self.arrets_prec=arrets_prec
+        self.liste_passage_1=liste_passage_1
+        self.liste_passage_2=liste_passage_2
+        
+    def get_liste_passage_1(self):
+        return self.liste_passage_1
+    
+    def get_liste_passage_2(self):
+        return self.liste_passage_2
+    
+    def get_nom(self):
+        return self.nom
+    
+    def get_arrets_prec(self):
+        return self.arrets_prec
+    
+    
+        
+        
+     #Methode qui permet de recuperer une liste contenant les temps de trajets entre deux arrets pour chaque creneau horaire   
+    def duree0(self,arret):
+        L=[]
+        for i in range(len(self.liste_passage_1)):
+            if self.liste_passage_1[i]!='-' and arret.liste_passage_1[i]!='-':
+                if self.liste_passage_1[i][0]==arret.liste_passage_1[i][0] and len(self.liste_passage_1[i])==4 and len(arret.liste_passage_1[i])==4:
+                        duree=int(arret.liste_passage_1[i][2:4])-int(self.liste_passage_1[i][2:4])
+                        if duree<1:
+                            duree+=60
+                        L.append(duree)
+                elif self.liste_passage_1[i][0:1]==arret.liste_passage_1[i][0:1] and len(self.liste_passage_1[i])==5 and len(arret.liste_passage_1[i])==5:         
+                        duree=int(arret.liste_passage_1[i][3:5])-int(self.liste_passage_1[i][3:5])
+                        if duree<1:
+                            duree+=60
+                        L.append(duree)        
+                elif len(self.liste_passage_1[i])==4 and len(arret.liste_passage_1[i])==4:
+                    duree=(60-int(self.liste_passage_1[i][2:4]))+(int(arret.liste_passage_1[i][2:4]))
+                    if duree<1:
+                        duree+=60
+                    L.append(duree)
+                elif len(self.liste_passage_1[i])==4 and len(arret.liste_passage_1[i])==5: 
+                    duree=(60-int(self.liste_passage_1[i][2:4]))+(int(arret.liste_passage_1[i][3:5]))
+                    if duree<1:
+                        duree+=60
+                    L.append(duree)
+                else:
+                    duree=(60-int(self.liste_passage_1[i][3:5]))+(int(arret.liste_passage_1[i][3:5]))
+                    if duree<1:
+                        duree+=60
+                    L.append(duree)
+                    
+        return L  
+    
+    #Methode qui permet de convertir une heure en une valeur entiere qui lui est proportionnelle
+    def heure_valeur(self,index):
+        heure=self.liste_passage_1[index].replace(':','')
+        heure=int(heure)
+        return heure
+           
+
+    
+    #Calcule le temps de trajet nécessaire pour rejoindre un arret avec un point de départ et une heure de départ
+    def voyage(self,arrivee,heure):
+        arretTemp=self
+        tempsTot=0
+        heureInt=int(heure.replace(':',''))
+        index=0
+        while heureInt>self.heure_valeur(index):
+            index+=1
+        while arretTemp!=arrivee:
+            tempsTot+=arretTemp.duree0(arretTemp.arrets_suiv[0])[index]
+            arretTemp=arretTemp.arrets_suiv[0]
+        return tempsTot    
+                       
+    
+        
+    
+    
+        
+  # On defini chaque arret      
+a_arret0=Arret('Lycee de Poisy',[],[],a_horaires0,None)
+a_arret1=Arret('Poisy College',[a_arret0],[],a_horaires1,None)   #arret precedent FAUX !!
+a_arret2=Arret('Vernod',[a_arret1],[],a_horaires2,None)
+#print(a_arret1.liste_passage_1)
+#print(a_arret2.liste_passage_1)
+a_arret3=Arret('Meythet Le Rabelais',[a_arret2],[],a_horaires3,None)
+a_arret4=Arret('Chorus',[a_arret3],[],a_horaires4,None)
+a_arret5=Arret('Mandallaz',[a_arret4],[],a_horaires5,None)
+a_arret6=Arret('Gare',[a_arret5],[],a_horaires6,None)
+a_arret7=Arret('France Barattes',[a_arret6],[],a_horaires7,None)
+a_arret8=Arret('C.E.S. Barattes',[a_arret7],[],a_horaires8,None)
+a_arret9=Arret('Vignieres',[a_arret8],[],a_horaires9,None)
+a_arret10=Arret('Ponchy',[a_arret9],[],a_horaires10,None)
+a_arret11=Arret('Parc des Glaisins',[a_arret10],[],a_horaires11,None)
+
+a_arret0.arrets_suiv=[a_arret1]
+a_arret1.arrets_suiv=[a_arret2]
+a_arret2.arrets_suiv=[a_arret3]
+a_arret3.arrets_suiv=[a_arret4]
+a_arret4.arrets_suiv=[a_arret5]
+a_arret5.arrets_suiv=[a_arret6]
+a_arret6.arrets_suiv=[a_arret7]
+a_arret7.arrets_suiv=[a_arret8]
+a_arret8.arrets_suiv=[a_arret9]
+a_arret9.arrets_suiv=[a_arret10]
+a_arret10.arrets_suiv=[a_arret11]
+
+
+
+
+
+r_arret0=Arret('Parc des Glaisins',[],[],r_horaires0,None)
+r_arret1=Arret('Ponchy',[r_arret0],[],r_horaires1,None)
+r_arret2=Arret('Vignieres',[r_arret1],[],r_horaires2,None)
+r_arret3=Arret('C.E.S Barattes',[r_arret2],[],r_horaires3,None)
+r_arret4=Arret('France Barattes',[r_arret3],[],r_horaires4,None)
+r_arret5=Arret('Gare',[r_arret4],[],r_horaires5,None)
+r_arret6=Arret('Mandallaz',[r_arret5],[],r_horaires6,None)
+r_arret7=Arret('Chorus',[r_arret6],[],r_horaires7,None)
+r_arret8=Arret('Meythet Le Rabelais',[r_arret7],[],r_horaires8,None)
+r_arret9=Arret('Vernod',[r_arret8],[],r_horaires9,None)
+r_arret10=Arret('Poisy College',[r_arret9],[],r_horaires10,None)
+r_arret11=Arret('Lycee de Poisy',[r_arret10],[],r_horaires11,None)    #arret precedent FAUX !!
+
+r_arret0.arrets_suiv=[r_arret1]
+r_arret1.arrets_suiv=[r_arret2]
+r_arret2.arrets_suiv=[r_arret3]
+r_arret3.arrets_suiv=[r_arret4]
+r_arret4.arrets_suiv=[r_arret5]
+r_arret5.arrets_suiv=[r_arret6]
+r_arret6.arrets_suiv=[r_arret7]
+r_arret7.arrets_suiv=[r_arret8]
+r_arret8.arrets_suiv=[r_arret9]
+r_arret9.arrets_suiv=[r_arret10]
+r_arret10.arrets_suiv=[r_arret11]
+
+
+#def traj0(self,arret):
+#    L=[]
+#    for i in range(len(self.liste_passage_1)):
+#        if self.liste_passage_1[i]!='-' and arret.liste_passage_1[i]!='-':
+#            if self.liste_passage_1[i][0]==arret.liste_passage_1[i][0]:
+#                duree=int(self.liste_passage_2[i][2:4])-int(arret.liste_passage_1[i][2:4])
+#                L.append(duree)
+#            else:
+#                duree=(60-int(self.liste_passage_2[i][2:4]))+(int(arret.liste_passage_1[i][2:4]))
+#                L.append(duree)
+#    return L           
+
+print(a_arret9.duree0(a_arret10))
+#print(a_arret1.trajets0(a_arret2))
+
+   
+#print(a_arret1.heure_valeur(0))  
+
+      
+#==============================================================================================================================
+                                      #depart.voyage(arrivee,heure))
+#============================================================================================================================== 
+print(a_arret1.voyage(a_arret10,'5:06'))           
+
+
+    
